@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ka">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Date? ❤️</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {
             box-sizing: border-box;
@@ -28,7 +29,7 @@
             background: rgba(255, 255, 255, 0.9);
             border-radius: 30px;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             position: relative;
         }
 
@@ -68,7 +69,7 @@
         #yes {
             background: #ff4f81;
             color: white;
-            box-shadow: 0 8px 20px rgba(255,79,129,0.3);
+            box-shadow: 0 8px 20px rgba(255, 79, 129, 0.3);
         }
 
         #yes:hover {
@@ -94,7 +95,9 @@
         }
 
         @keyframes pulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: scale(1);
             }
 
@@ -121,118 +124,153 @@
                 opacity: 0;
             }
         }
+
+        @media (max-width: 600px) {
+
+            .card {
+                width: calc(100% - 30px);
+                min-height: auto;
+                padding: 40px 20px;
+                border-radius: 24px;
+            }
+
+            .heart {
+                font-size: 55px;
+            }
+
+            h1 {
+                font-size: 30px;
+                line-height: 1.2;
+            }
+
+            p {
+                font-size: 17px;
+                margin-bottom: 30px;
+            }
+
+            .buttons {
+                gap: 12px;
+            }
+
+            button {
+                padding: 13px 25px;
+                font-size: 16px;
+            }
+
+        }
     </style>
 </head>
 
 <body>
 
-<div class="card">
+    <div class="card">
 
-    <!-- პირველი ეკრანი -->
-    <div id="question">
-        <div class="heart">❤️</div>
+        <!-- პირველი ეკრანი -->
+        <div id="question">
+            <div class="heart">❤️</div>
 
-        <h1>დეითზე გამომყვები?</h1>
+            <h1>დეითზე გამომყვები?</h1>
 
-        <p>ერთი პატარა კითხვა მაქვს შენთან... 👀</p>
+            <p>ერთი პატარა კითხვა მაქვს შენთან... 👀</p>
 
-        <div class="buttons">
-            <button id="yes">კი ❤️</button>
-            <button id="no">არა 😐</button>
+            <div class="buttons">
+                <button id="yes">კი ❤️</button>
+                <button id="no">არა 😐</button>
+            </div>
         </div>
+
+        <!-- დადებითი პასუხი -->
+        <div class="success" id="success">
+
+            <div class="big">🥰❤️</div>
+
+            <h1>გაემზადეეე!</h1>
+
+            <p>წავედით! 🚗✨</p>
+
+        </div>
+
     </div>
 
-    <!-- დადებითი პასუხი -->
-    <div class="success" id="success">
+    <script>
 
-        <div class="big">🥰❤️</div>
+        const noButton = document.getElementById("no");
+        const yesButton = document.getElementById("yes");
 
-        <h1>გაემზადეეე!</h1>
+        /*
+            "არა" ღილაკი გარბის,
+            როცა მაუსს მიიტან.
+        */
 
-        <p>წავედით! 🚗✨</p>
+        noButton.addEventListener("mouseenter", moveButton);
 
-    </div>
+        function moveButton() {
 
-</div>
+            const padding = 30;
 
-<script>
+            const maxX = window.innerWidth - noButton.offsetWidth - padding;
+            const maxY = window.innerHeight - noButton.offsetHeight - padding;
 
-    const noButton = document.getElementById("no");
-    const yesButton = document.getElementById("yes");
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
 
-    /*
-        "არა" ღილაკი გარბის,
-        როცა მაუსს მიიტან.
-    */
-
-    noButton.addEventListener("mouseenter", moveButton);
-
-    function moveButton() {
-
-        const padding = 30;
-
-        const maxX = window.innerWidth - noButton.offsetWidth - padding;
-        const maxY = window.innerHeight - noButton.offsetHeight - padding;
-
-        const x = Math.random() * maxX;
-        const y = Math.random() * maxY;
-
-        noButton.style.position = "fixed";
-        noButton.style.left = `${x}px`;
-        noButton.style.top = `${y}px`;
-    }
-
-
-    /*
-        "კი"-ზე დაჭერისას
-        ვაჩვენებთ საბოლოო ეკრანს.
-    */
-
-    yesButton.addEventListener("click", () => {
-
-        document.getElementById("question").style.display = "none";
-        document.getElementById("success").style.display = "block";
-
-        createConfetti();
-
-    });
-
-
-    /*
-        პატარა კონფეტი 🎉
-    */
-
-    function createConfetti() {
-
-        const emojis = ["❤️", "💖", "💕", "✨", "🥰", "🎉"];
-
-        for (let i = 0; i < 40; i++) {
-
-            const confetti = document.createElement("div");
-
-            confetti.className = "confetti";
-
-            confetti.textContent =
-                emojis[Math.floor(Math.random() * emojis.length)];
-
-            confetti.style.left =
-                Math.random() * 100 + "vw";
-
-            confetti.style.animationDuration =
-                (2 + Math.random() * 2) + "s";
-
-            confetti.style.animationDelay =
-                Math.random() * 1.5 + "s";
-
-            document.body.appendChild(confetti);
-
-            setTimeout(() => {
-                confetti.remove();
-            }, 4500);
+            noButton.style.position = "fixed";
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
         }
-    }
 
-</script>
+
+        /*
+            "კი"-ზე დაჭერისას
+            ვაჩვენებთ საბოლოო ეკრანს.
+        */
+
+        yesButton.addEventListener("click", () => {
+
+            document.getElementById("question").style.display = "none";
+            document.getElementById("success").style.display = "block";
+
+            createConfetti();
+
+        });
+
+
+        /*
+            პატარა კონფეტი 🎉
+        */
+
+        function createConfetti() {
+
+            const emojis = ["❤️", "💖", "💕", "✨", "🥰", "🎉"];
+
+            for (let i = 0; i < 40; i++) {
+
+                const confetti = document.createElement("div");
+
+                confetti.className = "confetti";
+
+                confetti.textContent =
+                    emojis[Math.floor(Math.random() * emojis.length)];
+
+                confetti.style.left =
+                    Math.random() * 100 + "vw";
+
+                confetti.style.animationDuration =
+                    (2 + Math.random() * 2) + "s";
+
+                confetti.style.animationDelay =
+                    Math.random() * 1.5 + "s";
+
+                document.body.appendChild(confetti);
+
+                setTimeout(() => {
+                    confetti.remove();
+                }, 4500);
+            }
+        }
+
+    </script>
 
 </body>
-</html>You said. Hey, Cortana. Addition. My woman, she gonna **** **** How? Hey, Cortana. 
+
+</html>You said. Hey, Cortana. Addition. My woman, she gonna **** **** How? Hey, Cortana.
